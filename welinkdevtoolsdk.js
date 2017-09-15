@@ -1,4 +1,6 @@
-
+/**
+ * 调试工具需要引用的js
+ */
 var iJSON = iJSON || { strJSON: (function (c) { if (c == undefined) { return '""' } var d = []; if (typeof c == "string") { return '"' + c.replace(/([\"\\])/g, "\\$1").replace(/(\n)/g, "\\n").replace(/(\r)/g, "\\r").replace(/(\t)/g, "\\t") + '"' } if (typeof c == "object") { if (!c.sort) { for (var b in c) { d.push('"' + b + '":' + iJSON.strJSON(c[b])) } if (!!document.all && !/^\n?function\s*toString\(\)\s*\{\n?\s*\[native code\]\n?\s*\}\n?\s*$/.test(c.toString)) { d.push("toString:" + c.toString().toString()) } d = "{" + d.join() + "}" } else { for (var b = 0, a = c.length; b < a; b++) { d.push(iJSON.strJSON(c[b])) } d = "[" + d.join() + "]" } return d } return c.toString().replace(/\"\:/g, '":""') }), JSONstr: (function (str) { try { return eval("(" + str + ")") } catch (e) { return false } }) };
 
 var params = function (params) {
@@ -112,7 +114,6 @@ var params = function (params) {
 					"data": ""
 				}
 				new window.SmartPcSendAjax("", data, function (result) {
-					// ���˽ӿڵĽ����result JSON�ַ�����ת��Ϊ����;
 					if (result.result) {
 						result = iJSON.JSONstr(result.result);
 					}
@@ -233,7 +234,6 @@ var params = function (params) {
 		}
 
 	})();
-// ͨ��AJAX����;
 window.SmartPcSendAjax = function (url, data, callBack) {
 	var url = url || "/requestServer";
 	url = url + "?v=" + new Date().getTime();
@@ -258,17 +258,16 @@ window.SmartPcSendAjax = function (url, data, callBack) {
 		}
 	}
 }
-// ��֤��ǰ���ػ����汾;
+
 window.localWarVersion = 8;
 ; (function () {
 	new window.SmartPcSendAjax("/getLocalVersion", "", function (data) {
 		if (data.version < window.localWarVersion) {
-			alert("��ǰH5���ص��Ի����汾���ͣ�����������е���");
+			alert("node版本过低，请检查您的node版本");
 		}
 	});
 })();
 
-// ����;
 var wsJS = {};
 wsJS.ws = null;
 wsJS.startServer = function () {

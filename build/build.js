@@ -40,15 +40,26 @@ const wirteFile = async (fpath, message) => {
 rm(path.resolve(__dirname, '../dist'), async (error) => {
     if (error) throw error;
     await fs.mkdir(process.cwd() + '/dist');
-    const fileName = 'welinkconfig.json';
-    const message = await readFile(`${basePath}/../${fileName}`);
-    await wirteFile(`${basePath}/../dist/${fileName}`, message);
+    await fs.mkdir(process.cwd() + '/dist/libs');
+    // const fileName = 'welinkconfig.json';
+    // const message = await readFile(`${basePath}/../${fileName}`);
+    // await wirteFile(`${basePath}/../dist/${fileName}`, message);
 
-    const package = 'package.json';
-    const pkmessage = await readFile(`${basePath}/../${package}`);
-    await wirteFile(`${basePath}/../dist/${package}`, pkmessage);
+    // const package = 'package.json';
+    // 拷贝文件
+    const fileList = [
+        'package.json',
+        'welinkconfig.json',
+    ];
+    fileList.forEach(async (item, index)=>{
+        const message = await readFile(`${basePath}/../${item}`);
+        await wirteFile(`${basePath}/../dist/${item}`, message);
+    })
+
+    shell.cp('-R', `${basePath}/../welinkdevtoolsdk.js`, `${basePath}/../dist/libs/welinkdevtoolsdk.js`);
     // 拷贝views文件夹
-    // await copydir();
     shell.cp('-R', `${basePath}/../views`, `${basePath}/../dist/`);
+    // 拷贝bin文件夹
     shell.cp('-R', `${basePath}/../bin`, `${basePath}/../dist/`);
+    //
 })
