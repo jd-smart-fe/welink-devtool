@@ -48,7 +48,7 @@ rm(path.resolve(__dirname, '../dist'), async (error) => {
     // const package = 'package.json';
     // 拷贝文件
     const fileList = [
-        'package.json',
+        // 'package.json',
         'welinkconfig.json',
     ];
     fileList.forEach(async (item, index)=>{
@@ -60,6 +60,6 @@ rm(path.resolve(__dirname, '../dist'), async (error) => {
     // 拷贝views文件夹
     shell.cp('-R', `${basePath}/../views`, `${basePath}/../dist/`);
     // 拷贝bin文件夹
-    shell.cp('-R', `${basePath}/../bin`, `${basePath}/../dist/`);
+    // shell.cp('-R', `${basePath}/../bin`, `${basePath}/../dist/`);
     //
 })
