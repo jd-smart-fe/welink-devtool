@@ -1,6 +1,6 @@
 {
   "name": "welink-devtool",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "welink-devtool",
   "main": "app.js",
   "scripts": {
@@ -35,5 +35,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JD-Smart-FE/welink-devtool.git"
-  },
+  }
 }
