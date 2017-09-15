@@ -56,7 +56,7 @@ rm(path.resolve(__dirname, '../dist'), async (error) => {
         await wirteFile(`${basePath}/../dist/${item}`, message);
     })
 
-    shell.cp('-R', `${basePath}/../welinkdevtoolsdk.js`, `${basePath}/../dist/libs/welinkdevtoolsdk.js`);
+    // shell.cp('-R', `${basePath}/../welinkdevtoolsdk.js`, `${basePath}/../dist/libs/welinkdevtoolsdk.js`);
     // 拷贝views文件夹
     shell.cp('-R', `${basePath}/../views`, `${basePath}/../dist/`);
     // 拷贝bin文件夹
