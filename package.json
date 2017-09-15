@@ -31,5 +31,9 @@
   "devDependencies": {
     "rimraf": "^2.6.1",
     "@types/node": "^8.0.20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JD-Smart-FE/welink-devtool.git"
+  },
 }
