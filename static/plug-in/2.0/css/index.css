@@ -1,0 +1,79 @@
+html,body{
+    height: 100%;
+    width: 100%;
+}
+#index{
+    height: 100%;
+    width: 100%;
+}
+img{
+   vertical-align: top;
+}
+.logo img{
+    width: 100%;
+}
+
+/*替换组件样式*/
+.control  .power  .c-panel{
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+}
+.jump-timer{
+    margin-top: 0.1rem;
+}
+.timer{
+
+}
+
+.timer-task-list{
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+}
+.timer-task-list-empty{
+    box-sizing: border-box;
+    padding-top:0.5rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+    text-align: center;
+    width: 100%;
+}
+.timer-task-list-empty::before{
+    content: '';
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -0.25rem;
+    background: url(../images/zwjlico.png) center center no-repeat;
+    background-size: cover;
+}
+.timer-task-list-empty h6{
+    margin-bottom: 0;
+    font-weight: normal;
+}
+.c999{
+    color: #999;
+}
+.blue{
+    color: #0096d6;
+}
+.f28{
+    font-size: 28px;
+}
+.f12{
+    font-size: 12px;
+}
+.f14{
+    font-size: 14px;
+}
+.c898989{
+    color: #898989;
+}

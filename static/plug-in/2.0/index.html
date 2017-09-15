@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <meta charset="utf-8">
+  <title>stone</title>
+  <link href="./static/css/vue-stone.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/index.css">
+  <script>
+    (function () {
+      var baseFontSize = 100;
+      var baseWidth = 320;
+      var set = function () {
+        var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+        var rem = 100;
+        if (clientWidth != baseWidth) {
+          rem = Math.floor(clientWidth / baseWidth * baseFontSize);
+        }
+
+        document.querySelector('html').style.fontSize = rem + 'px';
+      }
+      set();
+
+      window.addEventListener('resize', set);
+    } ());
+  </script>
+  <script src="./js/vue.js"></script>
+  <script type="text/javascript" src="./static/js/vue-stone.js"></script>
+  <script src="../../test/test.js"></script>
+  <script src="./js/jdSmartAPI.js"></script>
+  <script src="./js/timerApi.js"></script>
+  <script src="./js/units.js"></script>
+</head>
+<body>
+  <div id="index">
+    <header class="logo" v-show="pages.index">
+      <img src="./images/headertu.jpg" alt="">
+    </header>
+    <content class="control">
+      <div v-show="pages.index">
+        <div class="power">
+          <v-panel>
+            <div slot="body" class="c-panel-body row-2 u-cross-center">
+              <div slot="title" class="c-panel-title ">设备已开启</div>
+              <v-power slot="main" ref="power" :hand="true" v-model="power_state"></v-power>
+            </div>
+          </v-panel>
+        </div>
+        <div class="jump-timer">
+          <v-panel>
+            <div slot="header" class="c-panel-header u-cross-center" @click="jumpHandle">
+              <div class="c-panel-title">定时设置
+                <div class="c-panel-introduce" :class="['f14',todayMmission=='今日无定时'?'c898989':'blue']">{{todayMmission}}</div>
+              </div>
+              <span class='icon icon-pull-right'></span>
+            </div>
+          </v-panel>
+        </div>
+      </div>
+      <!--定时列表-->
+      <div v-show="pages.timerList" class="timer-task-list" style="display: none">
+        <v-panel v-for="(item,index) in timerTaskList">
+          <div slot="header" class="c-panel-header u-cross-center">
+            <div class="c-panel-title">{{item.task_name}}</div>
+            <div class="c-panel-extra">
+              <span class='icon icon-mode-smart' @click="editHandle(item)"></span>
+            </div>
+          </div>
+          <div slot="body" class="c-panel-body u-cross-center">
+            <div class="c-panel-title" :class="[getSwichClassName(item)==''?'c999':'blue','f28']">{{resolveTimeInTasklist(item.task_time_express)}}
+              <div class="c-panel-introduce" :class="['c999','f12']">{{toTasklistStr(item)}}</div>
+            </div>
+            <div @click="controlTimedTask(item)" class="c-switch" ref="switch" :class="getSwichClassName(item)"><span class="c-switch-button"></span></div>
+
+          </div>
+        </v-panel>
+        <div class="timer-task-list-empty" v-show="timerTaskList.length==0">
+          <h6>暂无定时设置</h6>
+          <p>点击页面右上方“+”新建定时任务</p>
+        </div>
+      </div>
+      <div class="timer" style="display: none" v-show="pages.timer">
+        <v-timer :options="options" ref="timer">
+        </v-timer>
+      </div>
+      <v-actions :items="actions_items" v-model="edit_value" ref="actions">
+      </v-actions>
+    </content>
+  </div>
+<script>
+  var feedId;
+  var timerApi;
+  var nativeBar = {
+    back_setting: [
+      {
+        button1: {
+          callBackName: 'goBackClick',
+          display: 'drawable_back',
+        }
+      },
+      {
+        button4: {
+          callBackName: '',
+          display: 'drawable_setting',
+        }
+      }
+    ],
+    back_add: [
+      {
+        button1: {
+          callBackName: 'goBackClick',
+          display: 'drawable_back',
+        }
+      },
+      {
+        button4: {
+          callBackName: 'addTask',
+          display: 'drawable_add',
+        }
+      }
+    ],
+    empty: [
+      {
+        button1: {
+          callBackName: 'emptyFn',
+          display: '',
+        }
+      },
+      {
+        button4: {
+          callBackName: '',
+          display: '',
+        }
+      }
+    ],
+    cancel_save: [
+      {
+        button1: {
+          callBackName: 'cancelTimer',
+          display: '取消',
+        }
+      },
+      {
+        button4: {
+          callBackName: 'saveTimer',
+          display: '保存',
+        }
+      }
+    ],
+    back_empty: [
+      {
+        button1: {
+          callBackName: 'backTimerPage',
+          display: 'drawable_back',
+        }
+      },
+      {
+        button4: {
+          callBackName: '',
+          display: '',
+        }
+      }
+    ],
+  }
+  var bull = new Vue({
+    el: '#index',
+    data: function () {
+      return {
+        power_state: true,//开关状态
+        timerTaskList: [],
+        todayMmission: '',//最近的定时任务
+        current_timerlist_item: {},
+        pages: {
+          index: true,
+          timerList: false,
+          timer: false,
+        },
+        edit: 0, //0,1,2
+        edit_value: false,//
+        actions_items: [{
+          text: '编辑',
+        }, {
+          text: '删除',
+          color: 'red',
+        }],
+        isAdd: true,
+        historyPage: [],//存储跳转的历史记录
+        options: {
+          // 定义主页内容
+          mainpage: {
+            task_name: '插座定时开关', // 定时任务名称
+            task_time_express: false,
+            pmg_setting: -1, // 执行结果通知。-1不通知，0仅失败通知，1均通知。
+            show_delete: true, //非必需，是否显示删除按钮，默认false，不显示,
+            simple: { // 开启简单命令模式界面，会忽略复杂任务页
+              title: '定时任务', // 开关面板标题
+              status: false, // 开关状态
+            },
+          },
+        }
+      }
+    },
+    methods: {
+      getSwichClassName: function (item) {
+        if (item.task_status == 0 || (!item.next_left_minutes)) {
+          return '';
+        }
+        return 'is-on';
+      },
+      jumpHandle: function () {
+        this.showPage('timerList');
+        //设置native
+        this.setNativeBar(nativeBar.back_add);
+      },
+      setNativeBar: function (source) {
+        var params = this._generateConfigActionBarParams(source);
+        JDSMART.util.configActionBar(params);
+      },
+      _generateConfigActionBarParams: function (list) {
+        var params = {
+          what: [],
+          display: [],
+          callBackName: [],
+        };
+        for (var i = 0; i < list.length; i++) {
+          for (var item in list[i]) {
+            params.what.push(item);
+            params.display.push(list[i][item].display);
+            params.callBackName.push(list[i][item].callBackName);
+          }
+        }
+        return params
+      },
+      showPage: function (page, goback) {//显示页面
+        for (var item in this.pages) {
+          if (item == page) {
+            this.pages[item] = true;
+          } else {
+            if (this.pages[item] && !goback) {
+              this.pushHistory(item);
+            }
+            this.pages[item] = false;
+          }
+        }
+      },
+      pushHistory: function (page) {//
+        this.historyPage.push(page);
+      },
+      editHandle: function (item) {
+        //调用修改api
+        this.current_timerlist_item = item;
+        this.edit = 1;
+        this.edit_value = true;
+      },// 转换为时间
+      resolveTimeInTasklist: function (date) {
+        return date.split('_')[1] + ':' + date.split('_')[0];
+      },//根据对应的表达式转换成对应的字符串
+      toTasklistStr: function (obj) {
+        var express = obj.task_time_express;
+        var minutes = obj.next_left_minutes;
+        var str1 = textTaskTimeExpress(express);
+        var hour = Math.floor(minutes / 60);
+        var min = minutes - hour * 60;
+        var day = Math.floor(hour / 24);
+        if (obj.task_status == 0 || (!minutes)) {
+          return str1;
+        }
+
+        if (day == 0 && hour == 0 && min == 0) {
+          return str1 + ' 小于1分钟';
+        }
+        if (day >= 1) {
+          return str1 + ' ' + day + '\u5929\u540E\u6267\u884C';
+        }
+        return str1 + ' ' + hour + '\u5C0F\u65F6' + min + '\u5206\u949F\u540E\u6267\u884C';
+      },
+      controlTimedTask: function (item) {
+        var obj = {
+          taskId: item.task_id,
+          control: 0
+        };
+        if (item.task_status == 0) {
+          //关闭定时
+          obj.control = 1;
+        }
+        var arr = item.task_time_express.split('_');
+        //判断是否是只执行一次
+        var date = new Date();
+        if (arr[5] !== '*' && !item.next_left_minutes) {
+          var currentMinutes = date.getHours() * 60 + date.getMinutes();
+          var setMinutes = parseInt(arr[0]) + arr[1] * 60;
+          var day = date.getDate();
+          if (currentMinutes >= setMinutes) {
+            day++;
+          }
+
+          date.setDate(day);
+          arr[3] = date.getMonth() + 1;
+          arr[2] = date.getDate();
+          item.task_time_express = arr.join('_');
+          //console.debug(`新的表达式${item.task_time_express}`);
+          var modifyParams = {
+            task_name: item.task_name,
+            task_time_express: item.task_time_express,
+            task_id: item.task_id,
+            task_express: {
+              stream: [{
+                stream_id: "power",
+                stream_value: item.task_express[0].stream[0].power,
+              }],
+            },
+            pmg_setting: item.pmg_setting,
+          }
+          timerApi.modifyTimedTask(modifyParams, function (res) {
+            getTimerTaskList();
+          })
+        } else {
+          //更新任务列表。
+          timerApi.controlTimedTask(obj, function (res) {
+            getTimerTaskList();
+          });
+        }
+      }
+    },
+    watch: {
+      edit_value: function () {
+        var bar = [];
+        //alert(this.edit);
+        switch (parseInt(this.edit)) {
+          case 0:
+            bar = nativeBar.back_add;
+            break;
+          case 1:
+            bar = nativeBar.empty;
+            break;
+          case 2:
+            bar = nativeBar.cancel_save;
+            break;
+          default:
+            break;
+        }
+        this.setNativeBar(bar);
+      },
+    },
+    mounted: function () {
+      this.$refs.power.$on('change', (state) => {
+        // 下发控制
+        var power = 0;
+        if (state) {
+          power = 1;
+        }
+        var data = getCommand({ power: power });
+        jdsmart.controlDevice(data, function (res) {
+          if (data.command[0].current_value == 0) {
+            bull.power = true;
+          } else {
+            bull.power = false;
+          }
+        });
+      });
+      this.$refs.timer.$on('jump', function (value) {
+        // 记录选择
+        bull.setNativeBar(nativeBar.back_empty);
+        bull.$refs.timer.jump(value);
+      });
+      //删除任务
+      this.$refs.timer.$on('delete', function (value) {
+        timerApi.removeTimedTask(bull.current_timerlist_item.task_id, function (res) {
+          bull.edit = 0;
+          bull.edit_value = false;
+          getTimerTaskList(goBackClick);
+        });
+      });
+
+      this.$refs.actions.$on('change', function (index) {
+        switch (parseInt(index)) {
+          case -1:
+            //取消
+            //取消的时间为true；
+            bull.isAdd = true;
+            //设置头部按钮
+            bull.edit=0;
+            //bull.setNativeBar(nativeBar.back_add);
+            break;
+          case 0: //编辑
+            bull.options = {
+              mainpage: {
+                task_name: bull.current_timerlist_item.task_name,
+                task_time_express: bull.current_timerlist_item.task_time_express,
+                pmg_setting: bull.current_timerlist_item.pmg_setting,
+                show_delete: true, //非必需，是否显示删除按钮，默认false，不显示,
+                simple: {
+                  title: '定时任务',
+                  status: bull.current_timerlist_item.task_express[0].stream[0].power == 0 ? false : true,
+                }
+              }
+            };
+            bull.edit = 2;
+            bull.edit_value = false;
+            bull.showPage('timer');
+            bull.isAdd = false;//编辑的时间为false
+            break;
+          case 1: //删除
+            timerApi.removeTimedTask(bull.current_timerlist_item.task_id, function (res) {
+              //console.info('删除成功！');
+              bull.edit = 0;
+              bull.edit_value = false;
+              getTimerTaskList();
+            });
+            break;
+          default:
+            break;
+        }
+      })
+    }
+  });
+  //添加定时任务
+  function addTask() {
+    //设置头部按钮
+    bull.setNativeBar(nativeBar.cancel_save);
+    //console.debug(bull.current_timerlist_item.task_id);
+    bull.options = {
+      // 定义主页内容
+      mainpage: {
+        task_name: '插座定时关', // 定时任务名称
+        task_time_express: false,
+        pmg_setting: -1, // 执行结果通知。-1不通知，0仅失败通知，1均通知。
+        simple: { // 开启简单命令模式界面，会忽略复杂任务页
+          title: '定时任务', // 开关面板标题
+          status: false, // 开关状态
+        },
+      },
+    }
+    bull.isAdd = true;
+    bull.key = new Date().getTime();
+    bull.showPage('timer');//显示timer页面
+  }
+  //取消定时
+  function cancelTimer() {
+    //设置头部按钮
+    bull.setNativeBar(nativeBar.back_add);
+    var page = bull.historyPage.pop();
+    bull.showPage(page, true);//显示上次的页面
+  }
+  //保存定时
+  function saveTimer() {
+    if (bull.isAdd) {
+      //新建
+      var taskMessage = bull.$refs.timer.getValue();
+      var addTaskParams = { //新建定时
+        task_name: taskMessage.task_name,
+        task_time_express: taskMessage.task_time_express,
+        task_express: {
+          stream: [{
+            stream_id: "power",
+            stream_value: taskMessage.simple_switch ? "1" : "0",
+          }],
+        },
+        pmg_setting: taskMessage.notice,
+      }
+      timerApi.addTask(addTaskParams, function (res) {
+        getTimerTaskList(goBackClick);
+      });
+    } else {
+      //修改
+      var modifyMessage = bull.$refs.timer.getValue();
+      var modifyParams = {
+        task_name: modifyMessage.task_name,
+        task_time_express: modifyMessage.task_time_express,
+        task_id: bull.current_timerlist_item.task_id,
+        task_express: {
+          stream: [{
+            stream_id: "power",
+            stream_value: modifyMessage.simple_switch ? "1" : "0",
+          }],
+        },
+        pmg_setting: modifyMessage.notice,
+      }
+      timerApi.modifyTimedTask(modifyParams, function (res) {
+        getTimerTaskList(goBackClick);
+      })
+    }
+  }
+  //后退按钮事件
+  function goBackClick() {
+    if (bull.historyPage.length <= 0) {
+      JDSMART.util.closeWindow();
+    } else {
+      var page = bull.historyPage.pop();
+      if (page == 'timerList') {
+
+        bull.setNativeBar(nativeBar.back_add);
+      } else {
+
+        bull.setNativeBar(nativeBar.back_setting);
+      }
+      bull.showPage(page, true);//显示上次的页面
+    }
+  }
+  //当隐藏nativebar的时候点击android物理键后退不做任何相应。
+  function emptyFn() {
+    bull.isAdd = true;
+    //设置头部按钮
+    bull.setNativeBar(nativeBar.back_add);
+    bull.edit=0;
+    bull.edit_value=false;
+  }
+  //js桥加载完成。
+  JDSMART.ready(
+    function () {
+      //初始化设备信息
+      jdsmart.initDeviceData(function (res) {
+        if (typeof (res) == "string") {
+          res = JSON.parse(res);
+        }
+        //设备在线状态 status=0 ：不在线 1：在线
+        if (res.device.status) {
+          var status = res.device.status;
+          if (status == 0) {
+            setNativeOnlineText(true);
+          } else {
+            setNativeOnlineText(false);
+          }
+        }
+        if (res.device.feed_id) {
+          feedId = res.device.feed_id;
+          timerApi = new TimerApi(feedId);
+          //获取定时列表
+          getTimerTaskList();
+          updateVueData(res);
+        }
+      });
+    }
+  );
+  //如果设备不在线app上显示一行“设备不在线的提示”的文字
+  function setNativeOnlineText(state) {
+    JDSMART.app.config({ showOnline: state });
+  }
+  //获取定时列表
+  function getTimerTaskList(fn) {
+    timerApi.getTimerTaskList(function (res) {
+      bull.timerTaskList.splice(0, bull.timerTaskList.length);
+      var list = [];
+      res.result.forEach(function (item, index) {
+        list.push({
+          power: item.task_name,
+          minutes: item.next_left_minutes ? parseInt(item.next_left_minutes) : -1,
+          status: item.task_status
+        });
+        bull.timerTaskList.push(item);
+      });
+      list.sort(function (a, b) {
+        return a.minutes - b.minutes;
+      });
+      var flag = true;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].minutes >= 0 && list[i].minutes < 1440 && list[i].status != '0') {
+          bull.todayMmission = getTodayMmission(list[i]);
+          flag = false;
+          break;
+        }
+      }
+      if (flag) {
+        bull.todayMmission = '今日无定时';
+      }
+      if (fn) {
+        fn();
+      }
+    });
+  }
+  function getTodayMmission(obj) {
+    var minutes = obj.minutes;
+    var hour = parseInt(obj.minutes / 60);
+    var min = parseInt(obj.minutes % 60);
+    var power = obj.power;
+    if (!hour && !min) {
+      return power + ' 1分钟后执行';
+    }
+    hour = hour < 10 ? '0' + hour : hour;
+    min = min < 10 ? '0' + min : min;
+
+    return power + ' ' + hour + ':' + min + '后执行';
+  }
+  function backTimerPage() {
+    //设置头部按钮
+    bull.setNativeBar(nativeBar.cancel_save);
+    bull.$refs.timer.jump('main');
+  }
+  //获取设备快照
+  function updateVueData(res) {
+    res.streams.forEach(function (item, index) {
+      if (item["stream_id"] == 'power') {
+        bull.power_state = item['current_value'] == 0 ? false : true;
+      }
+    })
+  }
+  setInterval(function () {
+    jdsmart.getSnapshot(function (res) {
+      updateVueData(res)
+    });
+  }, 14000)
+  //解决没有用长连接时候native调用onReceive报错。
+  function onReceive() {
+
+  }
+  function getCommand(commands) {
+    var command = {};
+    command.command = new Array();
+    for (var item in commands) {
+      if (commands.hasOwnProperty(item)) {
+        var stream = {};
+        stream.stream_id = item;
+        stream.current_value = commands[item];
+        command.command.push(stream);
+      } else {
+        return null;
+      }
+    }
+    return command;
+  }
+</script>
+</body>
+</html>
