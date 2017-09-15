@@ -12,7 +12,7 @@
     "welink-devtool": "./bin/app"
   },
   "keywords": [],
-  "author": "tianmeng",
+  "author": "tianme",
   "license": "ISC",
   "dependencies": {
     "koa": "^2.3.0",
