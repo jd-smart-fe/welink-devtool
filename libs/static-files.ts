@@ -14,7 +14,7 @@ export default function staticFiles(url:string){
 
         const workDir = process.cwd();
         const workDirPath = `${workDir}/${url}`;
-
+        console.log(workDirPath);
         // 判断是否以指定的url开头:
         if (rpath.startsWith(url)) {
             // 获取文件完整路径:

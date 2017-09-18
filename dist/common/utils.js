@@ -28,10 +28,10 @@ class utils {
         return utils.convertToken(config);
     }
     static convertToken(config) {
-        const authentication_token_key = config["authentication_token_key"];
-        const auth_token_key = authentication_token_key.split('_');
+        const authenticationTokenKey = config["authenticationTokenKey"];
+        const auth_token_key = authenticationTokenKey.split('_');
         if (!utils.checkAuthenticationTokenKey(auth_token_key)) {
-            logger.error('authentication_token_key格式错误');
+            logger.error('authenticationTokenKey格式错误');
         }
         const feedId = auth_token_key[2];
         const productId = auth_token_key[1];

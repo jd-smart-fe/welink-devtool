@@ -8,6 +8,7 @@ function staticFiles(url) {
         let rpath = ctx.request.path;
         const workDir = process.cwd();
         const workDirPath = `${workDir}/${url}`;
+        console.log(workDirPath);
         if (rpath.startsWith(url)) {
             let wfp = Path.join(workDirPath, rpath.substring(url.length));
             if (await fs.exists(wfp)) {

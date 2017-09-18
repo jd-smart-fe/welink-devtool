@@ -14,9 +14,9 @@ router.get('/', async (ctx) => {
 router.post('/getCurTokenKey', async (ctx) => {
   logger.info('getCurTokenKey');
   // ctx.app.wss.broadcast('doudou');
-  const token: string = ctx.app.webConfig['authentication_token_key'];
+  const token: string = ctx.app.webConfig['authenticationTokenKey'];
   let obj: object = {
-    authentication_token_key: token,
+    authenticationTokenKey: token,
   }
   ctx.body = obj;
 });
@@ -24,7 +24,7 @@ router.post('/getCurTokenKey', async (ctx) => {
 // router.post('/updateTokenKey', async (ctx, next) => {
 //   logger.info('updateTokenKey');
 //   await next();
-//   ctx.body = { authentication_token_key: '656565656566565' };
+//   ctx.body = { authenticationTokenKey: '656565656566565' };
 // })
 
 // 版本对象
@@ -43,11 +43,11 @@ router.post('/getLocalVersion', async (ctx, next) => {
 router.post('/index', async (ctx, next) => {
   logger.info('home/index');
   const token = ctx.request.body.token;
-  ctx.app.webConfig["authentication_token_key"] = token;
+  ctx.app.webConfig["authenticationTokenKey"] = token;
   utils.convertToken(ctx.app.webConfig);
-  console.log(ctx.app.webConfig["authentication_token_key"]);
+  console.log(ctx.app.webConfig["authenticationTokenKey"]);
   await next();
-  ctx.body = { authentication_token_key: token };
+  ctx.body = { authenticationTokenKey: token };
 });
 
 export default router;

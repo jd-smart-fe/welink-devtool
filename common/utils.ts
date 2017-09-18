@@ -43,10 +43,10 @@ class utils {
         return utils.convertToken(config);
     }
     public static convertToken(config: object): object {
-        const authentication_token_key = config["authentication_token_key"];
-        const auth_token_key: Array<string> = authentication_token_key.split('_');
+        const authenticationTokenKey = config["authenticationTokenKey"];
+        const auth_token_key: Array<string> = authenticationTokenKey.split('_');
         if (!utils.checkAuthenticationTokenKey(auth_token_key)) {
-            logger.error('authentication_token_key格式错误');
+            logger.error('authenticationTokenKey格式错误');
         }
         const feedId: string = auth_token_key[2];
         const productId: string = auth_token_key[1];

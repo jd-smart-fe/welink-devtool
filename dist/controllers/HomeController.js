@@ -11,9 +11,9 @@ router.get('/', async (ctx) => {
 });
 router.post('/getCurTokenKey', async (ctx) => {
     logger.info('getCurTokenKey');
-    const token = ctx.app.webConfig['authentication_token_key'];
+    const token = ctx.app.webConfig['authenticationTokenKey'];
     let obj = {
-        authentication_token_key: token,
+        authenticationTokenKey: token,
     };
     ctx.body = obj;
 });
@@ -26,11 +26,11 @@ router.post('/getLocalVersion', async (ctx, next) => {
 router.post('/index', async (ctx, next) => {
     logger.info('home/index');
     const token = ctx.request.body.token;
-    ctx.app.webConfig["authentication_token_key"] = token;
+    ctx.app.webConfig["authenticationTokenKey"] = token;
     utils_1.default.convertToken(ctx.app.webConfig);
-    console.log(ctx.app.webConfig["authentication_token_key"]);
+    console.log(ctx.app.webConfig["authenticationTokenKey"]);
     await next();
-    ctx.body = { authentication_token_key: token };
+    ctx.body = { authenticationTokenKey: token };
 });
 exports.default = router;
 //# sourceMappingURL=HomeController.js.map

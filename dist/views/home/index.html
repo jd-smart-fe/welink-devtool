@@ -25,8 +25,8 @@
 var curTokeyKey="";
 function getCurTokenKey(){
 	new window.SmartPcSendAjax("/getCurTokenKey", "", function(data){
-		   curTokeyKey=data.authentication_token_key;
-	       document.getElementById("authentication.token.key").value=data.authentication_token_key;
+		   curTokeyKey=data.authenticationTokenKey;
+	       document.getElementById("authentication.token.key").value=data.authenticationTokenKey;
 	});
 }
 function updateTokenKey(inputx){
@@ -35,9 +35,9 @@ function updateTokenKey(inputx){
 	new window.SmartPcSendAjax("/index",{token:newTokenKey}, function(data){
 
 		new window.SmartPcSendAjax("/getCurTokenKey", "", function(data){
-			curTokeyKey=data.authentication_token_key;
+			curTokeyKey=data.authenticationTokenKey;
 			if(curTokeyKey==newTokenKey){
-				document.getElementById("authentication.token.key").value=data.authentication_token_key;
+				document.getElementById("authentication.token.key").value=data.authenticationTokenKey;
 				alert("更新成功！")
 			}else{
 				alert("更新失败！")

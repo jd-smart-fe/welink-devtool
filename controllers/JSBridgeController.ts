@@ -79,7 +79,7 @@ router.post('/requestServer', async (ctx, next) => {
     logger.info('requestServer');
     await next();
     const receiveParams = ctx.request.body;
-    const tokenKey = ctx.app.webConfig['authentication_token_key'];
+    const tokenKey = ctx.app.webConfig['authenticationTokenKey'];
     let url: string = receiveParams.url;
     const domain = ctx.app.webConfig["jd.nsng.smart.url"];
     const data: any = getSendParams(domain, receiveParams);
