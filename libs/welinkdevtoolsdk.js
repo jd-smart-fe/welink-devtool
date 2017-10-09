@@ -189,7 +189,10 @@ var params = function (params) {
 			},
 			toast: function (data, successCallback) {
 				// pc;
-			}
+			},
+			loading: function () {
+
+			},
 		};
 
 		var util = {
@@ -215,6 +218,11 @@ var params = function (params) {
 				JSBridge.send({ type: 'token', data: appkey }, function (result) {
 					callBack(result);
 				});
+			},
+			configActionBar: function () {
+			},
+			closeWindow: function() {
+
 			}
 		};
 
