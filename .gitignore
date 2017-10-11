@@ -52,3 +52,7 @@ typings/
 # dotenv environment variables file
 .env
 static
+
+# other file
+welinkdevtool-nativeBarIcon.zip
+test.html
