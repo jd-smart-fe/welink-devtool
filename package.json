@@ -1,6 +1,6 @@
 {
   "name": "welink-devtool",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "welink-devtool",
   "main": "dist/app.js",
   "scripts": {
@@ -28,8 +28,7 @@
     "typescript": "^2.4.2",
     "ws": "^3.1.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JD-Smart-FE/welink-devtool.git"
