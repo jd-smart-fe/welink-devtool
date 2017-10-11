@@ -47,7 +47,7 @@ app.use(Nunjucks(`${Path.resolve(__dirname)}/views`, {
 app.use(Log4js.koaLogger(Log4js.getLogger('http'), { level: 'auto' }));
 app.use(BodyParser());
 // app.use(StaticFiles(webConfig.staticPath, `${__dirname}${webConfig.staticPath}`));
-app.use(StaticFiles(webConfig.staticPath));
+app.use(StaticFiles(`/${webConfig.staticPath}`));
 import JSBridge from './controllers/JSBridgeController';
 app.use(Home.routes()).use(JSBridge.routes());
 const logger = Log4js.getLogger('app');
