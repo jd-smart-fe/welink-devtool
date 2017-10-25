@@ -541,7 +541,7 @@ window.JDSMART.NativeBarUtils.prototype = {
 		if (!callBackName) {
 			return;
 		}
-		window[callBackName]&&window[callBackName]();
+		window[callBackName] && window[callBackName]();
 	},
 }
 window.addEventListener('load', function () {
