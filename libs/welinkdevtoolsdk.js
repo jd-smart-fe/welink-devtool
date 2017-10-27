@@ -337,6 +337,7 @@ window.JDSMART.NativeBarUtils = function () {
 	this.button3 = null;
 	this.button4 = null;
 	this.JDSmartNativeBarBox = null;
+	this.nativeBarHandle = null;
 }
 window.JDSMART.NativeBarUtils.prototype = {
 	construct: this,
@@ -378,11 +379,12 @@ window.JDSMART.NativeBarUtils.prototype = {
 		// 设置按钮内容
 		this._setNativeBarContent(whatDisply);
 		// 注册事件
-		const nativeBarHandle = this._nativeBarHandle.bind(this, options, whatCallBackName);
+		// const nativeBarHandle = this._nativeBarHandle.bind(this, options, whatCallBackName);
 		// 删除时间代理
-		nativeBox.removeEventListener('click', nativeBarHandle);
+		nativeBox.removeEventListener('click', this.nativeBarHandle);
+		this.nativeBarHandle = this._nativeBarHandle.bind(this, options, whatCallBackName);
 		// 添加时间代理
-		nativeBox.addEventListener('click', nativeBarHandle);
+		nativeBox.addEventListener('click', this.nativeBarHandle);
 	},
 	_createJDSmartNativeBarSytle: function () {
 		var JDSmartNativeBarSytle = document.createElement('style');
@@ -532,7 +534,8 @@ window.JDSMART.NativeBarUtils.prototype = {
 			}
 		});
 	},
-	_nativeBarHandle: function (options, whatCallBackName, e) {
+	_nativeBarHandle: function (options, whatCallBackName, event) {
+		const e = event || window.event;
 		var button = e.target.dataset.button;
 		if (!button) {
 			return;
@@ -542,6 +545,7 @@ window.JDSMART.NativeBarUtils.prototype = {
 			return;
 		}
 		window[callBackName] && window[callBackName]();
+		// e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
 	},
 }
 window.addEventListener('load', function () {
