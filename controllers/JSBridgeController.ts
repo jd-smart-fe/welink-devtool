@@ -24,10 +24,16 @@ const apiList: object = {
 
 
 const replaceFeedId = (obj, feedId) => {
-    var keys = Object.keys(obj);
+    const keys = Object.keys(obj);
 
     keys.forEach((key, index) => {
       const item = obj[key];
+      if(Object.prototype.toString.call(item) === 'object Array'){
+        for (let i = 0; i < item.length; i++) {
+
+            return replaceFeedId(item[i], feedId);
+        }
+      }
       if (Object.prototype.toString.call(item) === '[object Object]') {
         replaceFeedId(item, feedId);
         return;
