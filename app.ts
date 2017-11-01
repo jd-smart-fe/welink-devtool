@@ -6,7 +6,7 @@ import * as Koa from 'koa';
 import * as BodyParser from 'koa-bodyparser';
 import * as Path from 'path';
 import * as Log4js from 'koa-log4';
-import serve from 'koa-static';
+import * as serve from 'koa-static';
 import * as Nunjucks from 'koa-nunjucks-promise'
 
 import Home from './controllers/HomeController';

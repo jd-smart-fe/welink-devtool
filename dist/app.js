@@ -4,7 +4,7 @@ const Koa = require("koa");
 const BodyParser = require("koa-bodyparser");
 const Path = require("path");
 const Log4js = require("koa-log4");
-const koa_static_1 = require("koa-static");
+const serve = require("koa-static");
 const Nunjucks = require("koa-nunjucks-promise");
 const HomeController_1 = require("./controllers/HomeController");
 const WSServer = require("./common/wss");
@@ -29,7 +29,7 @@ app.use(Nunjucks(`${Path.resolve(__dirname)}/views`, {
 }));
 app.use(Log4js.koaLogger(Log4js.getLogger('http'), { level: 'auto' }));
 app.use(BodyParser());
-app.use(koa_static_1.default(`/${webConfig.staticPath}`));
+app.use(serve(`/${webConfig.staticPath}`));
 app.use(HomeController_1.default.routes()).use(JSBridgeController_1.default.routes());
 const logger = Log4js.getLogger('app');
 app.webConfig = webConfig;
