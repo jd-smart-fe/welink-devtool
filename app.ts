@@ -6,12 +6,11 @@ import * as Koa from 'koa';
 import * as BodyParser from 'koa-bodyparser';
 import * as Path from 'path';
 import * as Log4js from 'koa-log4';
+import serve from 'koa-static';
 import * as Nunjucks from 'koa-nunjucks-promise'
 
 import Home from './controllers/HomeController';
-import StaticFiles from './libs/static-files';
-// web config
-import Config from './config/env.config'
+
 //web socket server
 import * as WSServer from './common/wss';
 
@@ -45,8 +44,7 @@ app.use(Nunjucks(`${Path.resolve(__dirname)}/views`, {
 //http logs
 app.use(Log4js.koaLogger(Log4js.getLogger('http'), { level: 'auto' }));
 app.use(BodyParser());
-// app.use(StaticFiles(webConfig.staticPath, `${__dirname}${webConfig.staticPath}`));
-app.use(StaticFiles(`/${webConfig.staticPath}`));
+app.use(serve(`/${webConfig.staticPath}`));
 app.use(Home.routes()).use(JSBridge.routes());
 const logger = Log4js.getLogger('app');
 
