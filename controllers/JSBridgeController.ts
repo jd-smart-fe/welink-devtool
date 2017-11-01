@@ -95,9 +95,9 @@ var consoleJSBridgeLoggerInfo=(title:string,content:string)=>{
 }
 
 const router = new Router();
-router.post('/requestServer', async (ctx, next) => {
+router.post('/requestServer', async (ctx) => {
     logger.info('requestServer');
-    await next();
+    // await next();
     const receiveParams = ctx.request.body;
     const tokenKey = ctx.app.webConfig['authenticationTokenKey'];
     let url: string = receiveParams.url;

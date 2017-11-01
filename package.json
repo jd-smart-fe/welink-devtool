@@ -28,7 +28,10 @@
     "typescript": "^2.4.2",
     "ws": "^3.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^8.0.47",
+    "rimraf": "^2.6.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JD-Smart-FE/welink-devtool.git"

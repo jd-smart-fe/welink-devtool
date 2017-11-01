@@ -24,4 +24,3 @@ function createWebSocketServer(serve, onConnection, onMessage, onClose, onError)
     return wss;
 }
 exports.createWebSocketServer = createWebSocketServer;
-//# sourceMappingURL=wss.js.map

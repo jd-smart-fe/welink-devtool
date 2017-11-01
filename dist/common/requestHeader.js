@@ -7,4 +7,3 @@ requestHeader.uid = '';
 requestHeader.productId = '';
 requestHeader.contentType = 'application/json';
 exports.default = requestHeader;
-//# sourceMappingURL=requestHeader.js.map

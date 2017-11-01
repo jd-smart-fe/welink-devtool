@@ -49,4 +49,3 @@ class utils {
     }
 }
 exports.default = utils;
-//# sourceMappingURL=utils.js.map

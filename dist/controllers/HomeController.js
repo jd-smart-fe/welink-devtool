@@ -33,4 +33,3 @@ router.post('/index', async (ctx, next) => {
     ctx.body = { authenticationTokenKey: token };
 });
 exports.default = router;
-//# sourceMappingURL=HomeController.js.map

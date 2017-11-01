@@ -71,9 +71,8 @@ var consoleJSBridgeLoggerInfo = (title, content) => {
     console.log(`\r\n==========${title}==========\r\n`);
 };
 const router = new Router();
-router.post('/requestServer', async (ctx, next) => {
+router.post('/requestServer', async (ctx) => {
     logger.info('requestServer');
-    await next();
     const receiveParams = ctx.request.body;
     const tokenKey = ctx.app.webConfig['authenticationTokenKey'];
     let url = receiveParams.url;
@@ -100,4 +99,3 @@ router.post('/requestServer', async (ctx, next) => {
     }
 });
 exports.default = router;
-//# sourceMappingURL=JSBridgeController.js.map

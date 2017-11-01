@@ -5,12 +5,10 @@ import * as url from 'url';
 import * as Koa from 'koa';
 import * as BodyParser from 'koa-bodyparser';
 import * as Path from 'path';
-import Home from './controllers/HomeController';
-// log Middleware
 import * as Log4js from 'koa-log4';
-// 模板引擎 Middleware
 import * as Nunjucks from 'koa-nunjucks-promise'
-// 静态资源 Middleware
+
+import Home from './controllers/HomeController';
 import StaticFiles from './libs/static-files';
 // web config
 import Config from './config/env.config'
@@ -21,6 +19,7 @@ import * as WSServer from './common/wss';
 // import Webconfig from './common/webconfig'
 import utils from './common/utils'
 
+import JSBridge from './controllers/JSBridgeController';
 
 //Web Environment
 const isProdEnv: boolean = process.env.NODE_ENV === 'production';
@@ -48,14 +47,19 @@ app.use(Log4js.koaLogger(Log4js.getLogger('http'), { level: 'auto' }));
 app.use(BodyParser());
 // app.use(StaticFiles(webConfig.staticPath, `${__dirname}${webConfig.staticPath}`));
 app.use(StaticFiles(`/${webConfig.staticPath}`));
-import JSBridge from './controllers/JSBridgeController';
 app.use(Home.routes()).use(JSBridge.routes());
 const logger = Log4js.getLogger('app');
-const serve = app.listen(Config.listenPort, () => {
-  logger.info('[worker:%s] web server start listen on %s.\naddress: %s', process.pid, Config.listenPort, `http://localhost:${Config.listenPort}`);
-});
-app.wss = WSServer.createWebSocketServer(serve, null, null, null, () => { });
-// 读取配置文件并挂在到app实例下
 
+// const serve = app.listen(Config.listenPort, () => {
+//   logger.info('[worker:%s] web server start listen on %s.\naddress: %s', process.pid, Config.listenPort, `http://localhost:${Config.listenPort}`);
+// });
+
+// TODO: 导出的 app，缺少wss
+// app.wss = WSServer.createWebSocketServer(serve, null, null, null, () => { });
+
+// 读取配置文件并挂在到app实例下
 app.webConfig = webConfig;
+
+export default app;
+export {WSServer};
 

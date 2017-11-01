@@ -25,4 +25,3 @@ function staticFiles(url) {
     };
 }
 exports.default = staticFiles;
-//# sourceMappingURL=static-files.js.map

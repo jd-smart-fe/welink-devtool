@@ -1,3 +1,10 @@
 #!/usr/bin/env node
 
-require('../dist/app.js');
+const devtool = require('../dist/app.js');
+const app = devtool.default;
+const WSServer = devtool.WSServer;
+
+const serve = app.listen(Config.listenPort, () => {
+  logger.info('[worker:%s] web server start listen on %s.\naddress: %s', process.pid, Config.listenPort, `http://localhost:${Config.listenPort}`);
+});
+app.wss = WSServer.createWebSocketServer(serve, null, null, null, () => { });

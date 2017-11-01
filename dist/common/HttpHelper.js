@@ -16,4 +16,3 @@ class HttpHelper {
     }
 }
 exports.default = HttpHelper;
-//# sourceMappingURL=HttpHelper.js.map
