@@ -117,9 +117,10 @@ router.post('/requestServer', async (ctx) => {
             const data = JSON.parse(reslut.text);
             if (data.status != 0) {
                 logger.warn(reslut.text);
-                ctx.app.wss.broadcast(reslut.text);
+                if(ctx.app.wss && ctx.app.wss.broadcast){
+                    ctx.app.wss.broadcast(reslut.text);
+                }
             }
-            // ctx.app.wss.broadcast(reslut.text);
             ctx.body = reslut.text;
         } else {
             logger.error('请求的url地址、或服务器异常');
