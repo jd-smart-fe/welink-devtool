@@ -285,7 +285,8 @@ wsJS.startServer = function () {
 	if (wsJS.ws) {
 		return;
 	}
-	var url = "ws://localhost:3000/websocket";
+	var origin = window.location.origin;
+	var url = "ws://"+origin+"/websocket";
 	if ("WebSocket" in window) {
 		wsJS.ws = new WebSocket(url);
 

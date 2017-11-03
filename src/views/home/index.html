@@ -24,7 +24,7 @@
 })();
 var curTokeyKey="";
 function getCurTokenKey(){
-	new window.SmartPcSendAjax("/getCurTokenKey", "", function(data){
+	new window.SmartPcSendAjax("/home/getCurTokenKey", "", function(data){
 		   curTokeyKey=data.authenticationTokenKey;
 	       document.getElementById("authentication.token.key").value=data.authenticationTokenKey;
 	});
@@ -32,9 +32,9 @@ function getCurTokenKey(){
 function updateTokenKey(inputx){
 	var newTokenKey=document.getElementById("authentication.token.key").value;
 
-	new window.SmartPcSendAjax("/index",{token:newTokenKey}, function(data){
+	new window.SmartPcSendAjax("/home/index",{token:newTokenKey}, function(data){
 
-		new window.SmartPcSendAjax("/getCurTokenKey", "", function(data){
+		new window.SmartPcSendAjax("/home/getCurTokenKey", "", function(data){
 			curTokeyKey=data.authenticationTokenKey;
 			if(curTokeyKey==newTokenKey){
 				document.getElementById("authentication.token.key").value=data.authenticationTokenKey;

@@ -6,12 +6,12 @@ import  utils from '../common/utils';
 const logger = Log4js.getLogger('home');
 const router = new Router();
 
-router.get('/', async (ctx) => {
+router.get('/home', async (ctx) => {
   logger.info('home/');
   await ctx.render('home/index');
 });
 // 获取token
-router.post('/getCurTokenKey', async (ctx) => {
+router.post('/home/getCurTokenKey', async (ctx) => {
   logger.info('getCurTokenKey');
   // ctx.app.wss.broadcast('doudou');
   const token: string = ctx.app.webConfig['authenticationTokenKey'];
@@ -33,14 +33,14 @@ interface Iversion {
 }
 
 // 获取 node 版本号
-router.post('/getLocalVersion', async (ctx, next) => {
+router.post('/home/getLocalVersion', async (ctx, next) => {
   const version:Iversion = {
     version: Number.parseInt(process.version.substring(1)),
   }
   ctx.body = version;
 });
 // 更新token
-router.post('/index', async (ctx, next) => {
+router.post('/home/index', async (ctx, next) => {
   logger.info('home/index');
   const token = ctx.request.body.token;
   ctx.app.webConfig["authenticationTokenKey"] = token;

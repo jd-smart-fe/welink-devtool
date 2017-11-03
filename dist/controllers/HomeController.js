@@ -5,11 +5,11 @@ const Log4js = require("koa-log4");
 const utils_1 = require("../common/utils");
 const logger = Log4js.getLogger('home');
 const router = new Router();
-router.get('/', async (ctx) => {
+router.get('/home', async (ctx) => {
     logger.info('home/');
     await ctx.render('home/index');
 });
-router.post('/getCurTokenKey', async (ctx) => {
+router.post('/home/getCurTokenKey', async (ctx) => {
     logger.info('getCurTokenKey');
     const token = ctx.app.webConfig['authenticationTokenKey'];
     let obj = {
@@ -17,13 +17,13 @@ router.post('/getCurTokenKey', async (ctx) => {
     };
     ctx.body = obj;
 });
-router.post('/getLocalVersion', async (ctx, next) => {
+router.post('/home/getLocalVersion', async (ctx, next) => {
     const version = {
         version: Number.parseInt(process.version.substring(1)),
     };
     ctx.body = version;
 });
-router.post('/index', async (ctx, next) => {
+router.post('/home/index', async (ctx, next) => {
     logger.info('home/index');
     const token = ctx.request.body.token;
     ctx.app.webConfig["authenticationTokenKey"] = token;
