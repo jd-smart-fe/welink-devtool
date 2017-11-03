@@ -91,7 +91,9 @@ router.post('/requestServer', async (ctx) => {
             const data = JSON.parse(reslut.text);
             if (data.status != 0) {
                 logger.warn(reslut.text);
-                ctx.app.wss.broadcast(reslut.text);
+                if (ctx.app.wss && ctx.app.wss.broadcast) {
+                    ctx.app.wss.broadcast(reslut.text);
+                }
             }
             ctx.body = reslut.text;
         }

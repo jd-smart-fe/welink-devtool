@@ -44,7 +44,9 @@ app.use(Nunjucks(`${Path.resolve(__dirname)}/views`, {
 //http logs
 app.use(Log4js.koaLogger(Log4js.getLogger('http'), { level: 'auto' }));
 app.use(BodyParser());
-app.use(serve(`/${webConfig.staticPath}`));
+const staticPath = `${process.cwd()}/${webConfig.staticPath}`;
+app.use(serve(staticPath));
+// app.use(serve(`/${webConfig.staticPath}`));
 app.use(Home.routes()).use(JSBridge.routes());
 const logger = Log4js.getLogger('app');
 

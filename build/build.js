@@ -41,6 +41,8 @@ rm(path.resolve(__dirname, '../dist'), async (error) => {
     if (error) throw error;
     await fs.mkdir(process.cwd() + '/dist');
     await fs.mkdir(process.cwd() + '/dist/libs');
+    await fs.mkdir(process.cwd() + '/dist/views');
+
     // const fileName = 'welinkconfig.json';
     // const message = await readFile(`${basePath}/../${fileName}`);
     // await wirteFile(`${basePath}/../dist/${fileName}`, message);
@@ -58,7 +60,7 @@ rm(path.resolve(__dirname, '../dist'), async (error) => {
 
     // shell.cp('-R', `${basePath}/../welinkdevtoolsdk.js`, `${basePath}/../dist/libs/welinkdevtoolsdk.js`);
     // 拷贝views文件夹
-    shell.cp('-R', `${basePath}/../views`, `${basePath}/../dist/`);
+    shell.cp('-R', `${basePath}/../src/views`, `${basePath}/../dist`);
     // 拷贝bin文件夹
     // shell.cp('-R', `${basePath}/../bin`, `${basePath}/../dist/`);
     //

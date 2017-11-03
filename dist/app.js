@@ -29,7 +29,8 @@ app.use(Nunjucks(`${Path.resolve(__dirname)}/views`, {
 }));
 app.use(Log4js.koaLogger(Log4js.getLogger('http'), { level: 'auto' }));
 app.use(BodyParser());
-app.use(serve(`/${webConfig.staticPath}`));
+const staticPath = `${process.cwd()}/${webConfig.staticPath}`;
+app.use(serve(staticPath));
 app.use(HomeController_1.default.routes()).use(JSBridgeController_1.default.routes());
 const logger = Log4js.getLogger('app');
 app.webConfig = webConfig;
