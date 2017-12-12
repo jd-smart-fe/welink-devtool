@@ -115,7 +115,14 @@ var params = function (params) {
 				}
 				new window.SmartPcSendAjax("", data, function (result) {
 					if (result.result) {
+						var regx = /\\+"feed_id\\+":\\+"(\d+)\\+"/ig;
+						var arr = regx.exec(a);
+
 						result = iJSON.JSONstr(result.result);
+
+						if (arr.length>=1) {
+							result.device.feed_id = arr[1];
+						}
 					}
 					successCallback(result);
 				});

@@ -9,28 +9,6 @@ const logger = Log4js.getLogger('jsBridgeController');
 const apiList = {
     initDeviceData: "/f/service/getStreamsAndH5Info",
 };
-const replaceFeedId = (obj, feedId) => {
-    const keys = Object.keys(obj);
-    keys.forEach((key, index) => {
-        const item = obj[key];
-        if (Object.prototype.toString.call(item) === 'object Array') {
-            for (let i = 0; i < item.length; i++) {
-                return replaceFeedId(item[i], feedId);
-            }
-        }
-        if (Object.prototype.toString.call(item) === '[object Object]') {
-            replaceFeedId(item, feedId);
-            return;
-        }
-        if (key === 'feed_ids') {
-            obj[key] = [feedId];
-        }
-        if (key === 'feed_id') {
-            const item = obj[key];
-            obj[key] = feedId;
-        }
-    });
-};
 const getSendParams = (domain, data) => {
     let sendParams = null;
     const feed_id = requestHeader_1.default.feedId;
@@ -49,7 +27,6 @@ const getSendParams = (domain, data) => {
             break;
         case 'post':
             sendData = typeof data.data === 'string' ? JSON.parse(data.data) : data.data;
-            replaceFeedId(sendData, feed_id);
             sendParams = {
                 api: `${domain}/s/${data.url}`,
                 sendData: Object.assign({}, sendData)
