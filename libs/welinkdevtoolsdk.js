@@ -510,6 +510,7 @@ window.JDSMART.NativeBarUtils.prototype = {
 				continue;
 			}
 			if (whatDisply[item]) {
+				doms[item].style.display = 'block';
 				if (regex.test(whatDisply[item])) {
 					doms[item].style.backgroundImage = `url(${whatDisply[item]})`;
 					doms[item].innerHTML = '';
@@ -524,6 +525,9 @@ window.JDSMART.NativeBarUtils.prototype = {
 					}
 
 				}
+			} else {
+				doms[item].style.backgroundImage = 'none';
+				doms[item].innerHTML = '';
 			}
 		}
 
