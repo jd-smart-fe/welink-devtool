@@ -62,6 +62,5 @@ app.use(Home.routes()).use(JSBridge.routes());
 
 // 读取配置文件并挂在到app实例下
 app.webConfig = webConfig;
-
 // export default app;
 export { app, WSServer };

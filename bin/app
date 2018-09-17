@@ -2,9 +2,9 @@
 
 const Config = require('../dist/config/env.config').default;
 const Log4js = require('log4js');
-const devtool = require('../dist/app.js');
-const app = devtool.default;
-const WSServer = devtool.WSServer;
+const { app, WSServer } = require('../dist/app.js');
+// const app = devtool.default;
+// const WSServer = devtool.WSServer;
 
 
 const logger = Log4js.getLogger('bin');

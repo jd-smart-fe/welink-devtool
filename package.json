@@ -5,8 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "node ./build/build.js && tsc",
-    "start": "pm2 start config/pm2.dev.config.json && pm2 logs",
-    "dev": "rm -rf ./build && tsc && node ./build/app.js"
+    "start": "ts-node-dev --respawn --transpileOnly ./bin/app.dev.ts",
   },
   "bin": {
     "welink-devtool": "./bin/app"
@@ -31,6 +30,7 @@
     "@types/node": "^8.0.47",
     "rimraf": "^2.6.2",
     "ts-node": "^7.0.1",
+    "ts-node-dev": "^1.0.0-pre.30",
     "typescript": "^2.9.2"
   },
   "repository": {
