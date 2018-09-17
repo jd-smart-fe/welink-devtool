@@ -1,11 +1,8 @@
-// require('babel-core/register');
 
-import * as Http from 'http';
-import * as url from 'url';
 import * as Koa from 'koa';
 import * as BodyParser from 'koa-bodyparser';
 import * as Path from 'path';
-import * as Log4js from 'koa-log4';
+import * as Log4js from 'log4js';
 import * as serve from 'koa-static';
 import * as Nunjucks from 'koa-nunjucks-promise'
 
@@ -41,14 +38,16 @@ app.use(Nunjucks(`${Path.resolve(__dirname)}/views`, {
   }
 }))
 
-//http logs
-app.use(Log4js.koaLogger(Log4js.getLogger('http'), { level: 'auto' }));
+const logger = Log4js.getLogger('app');
+logger.level = 'debug'
+// //http logs
+// app.use(logger);
 app.use(BodyParser());
 const staticPath = `${process.cwd()}/${webConfig.staticPath}`;
 app.use(serve(staticPath));
 // app.use(serve(`/${webConfig.staticPath}`));
 app.use(Home.routes()).use(JSBridge.routes());
-const logger = Log4js.getLogger('app');
+// const logger = Log4js.getLogger('app');
 
 // const serve = app.listen(Config.listenPort, () => {
 //   logger.info('[worker:%s] web server start listen on %s.\naddress: %s', process.pid, Config.listenPort, `http://localhost:${Config.listenPort}`);

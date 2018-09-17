@@ -3,7 +3,7 @@
  */
 import * as ws from 'ws';
 
-import * as Log4js from 'koa-log4';
+import * as Log4js from 'log4js';
 
 const logger = Log4js.getLogger('wss');
 

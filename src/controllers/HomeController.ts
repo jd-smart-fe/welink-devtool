@@ -1,14 +1,17 @@
 import * as Router from 'koa-router';
-import * as Log4js from 'koa-log4';
-// import tokenConvert from '../common/tokenConvert';
+import * as Log4js from 'log4js';
 import  utils from '../common/utils';
 
-const logger = Log4js.getLogger('home');
+const logger = Log4js.getLogger('HomeController');
+
+logger.level = 'info';
+
 const router = new Router();
 
 router.get('/home', async (ctx) => {
   logger.info('home/');
   await ctx.render('home/index');
+
 });
 // 获取token
 router.post('/home/getCurTokenKey', async (ctx) => {
@@ -29,7 +32,7 @@ router.post('/home/getCurTokenKey', async (ctx) => {
 
 // 版本对象
 interface Iversion {
-  version:number,
+  version: number,
 }
 
 // 获取 node 版本号

@@ -15,14 +15,6 @@ class utils {
         return crypto.createHash('md5').update(str).digest('hex');
     }
     public static readWebconfig(path: string) {
-        // if (await fs.exists(pathName)) {
-        //     const token_key_string: string = await fs.readFile(pathName);
-        //     const token_key: object = JSON.parse(token_key_string);
-        //     return utils.convertToken(token_key);
-        // } else {
-        //     // 配置文件不存在:
-        //     logger.error('本地测试服务器配置错误。');
-        // }
         let currentConfig: object = null;
         let workConfig: object = null;
         const pathName = Path.basename(path);
@@ -66,13 +58,7 @@ class utils {
         }
         return true
     }
-    // static logger(title:string,content):void{
-    //     const loggerPower = false;
-    //     if(loggerPower){
-    //         const logger = Log4js.getLogger(title);
-    //         logger.info(content);
-    //     }
-    // }
+
 
 }
 export default utils;

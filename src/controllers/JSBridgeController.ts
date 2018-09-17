@@ -1,9 +1,7 @@
 import * as Router from 'koa-router';
-import * as Log4js from 'koa-log4';
+import * as Log4js from 'log4js';
 import requestHeader from '../common/requestHeader';
-// http 请求api
-const request = require('superagent');
-import utils from '../common/utils';
+
 import httpHelper from '../common/HttpHelper';
 
 const logger = Log4js.getLogger('jsBridgeController');
@@ -12,42 +10,6 @@ const logger = Log4js.getLogger('jsBridgeController');
 const apiList: object = {
     initDeviceData: "/f/service/getStreamsAndH5Info",
 }
-// const feedIdParams: object = {
-//     feed_id: requestHeader.feedId,
-// };
-// const sendData: object = {
-//     '/f/service/getStreamsAndH5Info': {
-//         digest: '',
-//         feed_id: requestHeader.feedId,
-//     }
-// }
-
-
-// const replaceFeedId = (obj, feedId) => {
-
-//     const keys = Object.keys(obj);
-
-//     keys.forEach((key, index) => {
-//       const item = obj[key];
-//       if(Object.prototype.toString.call(item) === 'object Array'){
-//         for (let i = 0; i < item.length; i++) {
-
-//             return replaceFeedId(item[i], feedId);
-//         }
-//       }
-//       if (Object.prototype.toString.call(item) === '[object Object]') {
-//         replaceFeedId(item, feedId);
-//         return;
-//       }
-//       if (key === 'feed_ids') {
-//         obj[key] = [feedId];
-//       }
-//       if (key === 'feed_id') {
-//         const item = obj[key];
-//         obj[key] = feedId;
-//       }
-//     });
-//   };
 
 const getSendParams = (domain: string, data: any): object => {
     let sendParams: object = null;
@@ -91,10 +53,7 @@ const getSendParams = (domain: string, data: any): object => {
     return sendParams;
 }
 // 获取完整的请求地址
-// const perfectApi = (domain:string,api:string):string => {
 
-//     return '';
-// }
 var consoleJSBridgeLoggerInfo=(title:string,content:string)=>{
     console.log(`\r\n==========${title}==========\r\n`);
     console.log(`\r\n${content}\r\n`);

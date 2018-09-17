@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 const Config = require('../dist/config/env.config').default;
-const Log4js = require('koa-log4');
+const Log4js = require('log4js');
 const devtool = require('../dist/app.js');
 const app = devtool.default;
 const WSServer = devtool.WSServer;
 
-const logger = Log4js.getLogger('app');
+const logger = Log4js.getLogger('bin');
+logger.level = 'info';
 const serve = app.listen(Config.listenPort, () => {
   logger.info('[worker:%s] web server start listen on %s.\naddress: %s', process.pid, Config.listenPort, `http://localhost:${Config.listenPort}`);
 });
