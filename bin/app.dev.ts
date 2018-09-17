@@ -1,10 +1,9 @@
-#!/usr/bin/env node
 
-const Config = require('../dist/config/env.config').default;
-const Log4js = require('log4js');
-const devtool = require('../dist/app.js');
-const app = devtool.default;
-const WSServer = devtool.WSServer;
+
+import Config from '../src/config/env.config';
+import * as Log4js from 'log4js';
+import { app, WSServer } from '../src/app';
+
 
 
 const logger = Log4js.getLogger('bin');
