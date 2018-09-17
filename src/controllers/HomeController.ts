@@ -16,20 +16,12 @@ router.get('/home', async (ctx) => {
 // 获取token
 router.post('/home/getCurTokenKey', async (ctx) => {
   logger.info('getCurTokenKey');
-  // ctx.app.wss.broadcast('doudou');
   const token: string = ctx.app.webConfig['authenticationTokenKey'];
   let obj: object = {
     authenticationTokenKey: token,
   }
   ctx.body = obj;
 });
-// 更新token
-// router.post('/updateTokenKey', async (ctx, next) => {
-//   logger.info('updateTokenKey');
-//   await next();
-//   ctx.body = { authenticationTokenKey: '656565656566565' };
-// })
-
 // 版本对象
 interface Iversion {
   version: number,
