@@ -278,7 +278,7 @@ window.SmartPcSendAjax = function (url, data, callBack) {
 
 window.localWarVersion = 8;
 ; (function () {
-	new window.SmartPcSendAjax("/getLocalVersion", "", function (data) {
+	new window.SmartPcSendAjax("/home/getLocalVersion", "", function (data) {
 		if (data.version < window.localWarVersion) {
 			alert("node版本过低，请检查您的node版本");
 		}
