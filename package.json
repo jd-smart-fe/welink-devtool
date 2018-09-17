@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "node ./build/build.js && tsc",
-    "start": "ts-node-dev --respawn --transpileOnly ./bin/app.dev.ts",
+    "start": "ts-node-dev --respawn --transpileOnly ./bin/app.dev.ts"
   },
   "bin": {
     "welink-devtool": "./bin/app"
