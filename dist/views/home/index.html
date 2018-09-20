@@ -37,7 +37,7 @@ function getCurTokenKey(){
 function updateTokenKey(inputx){
 	var newTokenKey=document.getElementById("authentication.token.key").value;
 
-	new window.SmartPcSendAjax("/home/index",{token:newTokenKey}, function(data){
+	new window.SmartPcSendAjax("/home/setToken",{token:newTokenKey}, function(data){
 
 		new window.SmartPcSendAjax("/home/getCurTokenKey", "", function(data){
 			curTokeyKey=data.authenticationTokenKey;

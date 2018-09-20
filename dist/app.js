@@ -3,35 +3,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Koa = require("koa");
 const BodyParser = require("koa-bodyparser");
 const Path = require("path");
-const Log4js = require("koa-log4");
+const Log4js = require("log4js");
 const serve = require("koa-static");
-const Nunjucks = require("koa-nunjucks-promise");
-const HomeController_1 = require("./controllers/HomeController");
-const WSServer = require("./common/wss");
-exports.WSServer = WSServer;
+const websockify = require("koa-websocket");
+const koaViews = require("koa-views");
+const home_1 = require("./routers/home");
 const utils_1 = require("./common/utils");
-const JSBridgeController_1 = require("./controllers/JSBridgeController");
+const jsbridge_1 = require("./routers/jsbridge");
+const caches_1 = require("./cache/caches");
 const isProdEnv = process.env.NODE_ENV === 'production';
 const webConfigFileName = 'welinkconfig.json';
 const webConfig = utils_1.default.readWebconfig(`${Path.resolve(__dirname)}/${webConfigFileName}`);
-const app = new Koa();
-app.use(Nunjucks(`${Path.resolve(__dirname)}/views`, {
-    ext: 'html',
-    noCache: !isProdEnv,
-    filter: {
-        json: (str) => {
-            return JSON.stringify(str, null, 2);
-        }
+caches_1.default.getInstance().init();
+const app = websockify(new Koa());
+exports.app = app;
+app.use(koaViews(`${__dirname}/views`, {
+    map: {
+        html: 'nunjucks',
     },
-    globals: {
-        STATIC_URL: '/static'
-    }
 }));
-app.use(Log4js.koaLogger(Log4js.getLogger('http'), { level: 'auto' }));
+const logger = Log4js.getLogger('app');
+logger.level = 'info';
 app.use(BodyParser());
 const staticPath = `${process.cwd()}/${webConfig.staticPath}`;
 app.use(serve(staticPath));
-app.use(HomeController_1.default.routes()).use(JSBridgeController_1.default.routes());
-const logger = Log4js.getLogger('app');
-app.webConfig = webConfig;
-exports.default = app;
+app.use(home_1.default.routes());
+app.use(jsbridge_1.default.routes());
+app.ws.use((ctx) => {
+});
+//# sourceMappingURL=app.js.map
