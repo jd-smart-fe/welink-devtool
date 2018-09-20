@@ -24,16 +24,21 @@
  welinkconfig.json
  ```
   {
+    jd.nsng.smart.url": "https://sbappgw.jd.com",
     "authenticationTokenKey": "0882741796_91900007_150149604599245054_c0b963d6",
     "staticPath": "project"
   }
  ```
+`jd.nsng.smart.url` // 可以配置沙箱或线上地址，默认沙箱地址。
 
-`authenticationTokenKey` // 需要在微联开发者中心获得。不能省略的配置
+`authenticationTokenKey` // 需要在微联开发者中心获得。不能省略的配置。
 
 `staticPath` // 要调试的HTML5项目目录，不能省略的配置。
 
+### jd.nsng.smart.url
 
+- 沙箱：`https://sbappgw.jd.com`
+- 线上：`https://gw.smart.jd.com`
 
 ## 使用
 
