@@ -6,12 +6,11 @@ import * as serve from 'koa-static';
 import * as websockify from 'koa-websocket';
 import * as koaViews from 'koa-views';
 
-import homeRouter from './routers/home';
+import router from './routes';
 
 // utils
 import utils from './common/utils';
 
-import JSBridge from './routers/jsbridge';
 import IWeilinconfig from './interfaces/IWelinkConfig';
 import Caches from './cache/caches';
 
@@ -42,8 +41,8 @@ logger.level = 'info';
 app.use(BodyParser());
 const staticPath = `${process.cwd()}/${webConfig.staticPath}`;
 app.use(serve(staticPath));
-app.use(homeRouter.routes());
-app.use(JSBridge.routes());
+app.use(router.routes());
+// app.use(JSBridge.routes());
 
 app.ws.use((ctx: websockify.MiddlewareContext) => {
   // global.setInterval(() => {

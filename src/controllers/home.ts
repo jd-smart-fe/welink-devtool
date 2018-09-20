@@ -50,6 +50,7 @@ logger.level = 'info';
 // });
 
 class HomeController {
+
   async index(ctx: Koa.Context, next: () => Promise<any>) {
     logger.info('home/index');
     await ctx.render('home/index');

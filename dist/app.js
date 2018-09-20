@@ -7,9 +7,8 @@ const Log4js = require("log4js");
 const serve = require("koa-static");
 const websockify = require("koa-websocket");
 const koaViews = require("koa-views");
-const home_1 = require("./routers/home");
+const routes_1 = require("./routes");
 const utils_1 = require("./common/utils");
-const jsbridge_1 = require("./routers/jsbridge");
 const caches_1 = require("./cache/caches");
 const isProdEnv = process.env.NODE_ENV === 'production';
 const webConfigFileName = 'welinkconfig.json';
@@ -27,8 +26,7 @@ logger.level = 'info';
 app.use(BodyParser());
 const staticPath = `${process.cwd()}/${webConfig.staticPath}`;
 app.use(serve(staticPath));
-app.use(home_1.default.routes());
-app.use(jsbridge_1.default.routes());
+app.use(routes_1.default.routes());
 app.ws.use((ctx) => {
 });
 //# sourceMappingURL=app.js.map
