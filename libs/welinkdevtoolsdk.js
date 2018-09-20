@@ -262,11 +262,11 @@ window.SmartPcSendAjax = function (url, data, callBack) {
 		XHR = new ActiveXObject("Microsoft.XMLHTTP");
 	}
 
-	console.info(`url:${JSON.stringify(data)}`);
+	// console.info(`url:${JSON.stringify(data)}`);
 	XHR.open("POST", url);
 	XHR.setRequestHeader('x-requested-with', 'XMLHttpRequest');
 	XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;  charset=utf-8");
-	console.log(XHR.responseType)
+	// console.log(XHR.responseType)
 	XHR.send(params(data));
 	XHR.onreadystatechange = function () {
 		if ((XHR.readyState == 4) && (XHR.status == 200)) {
