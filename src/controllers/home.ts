@@ -77,7 +77,6 @@ class HomeController {
     const { version } = process;
 
     const versionFirst = version.replace('v', '').split('.')[0];
-    console.log(versionFirst);
     ctx.body = {
       version: Number.parseInt(versionFirst, 10),
     };
