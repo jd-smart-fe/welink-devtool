@@ -1,5 +1,5 @@
 {
     "jd.nsng.smart.url": "https://sbappgw.jd.com",
     "authenticationTokenKey": "5962442078_135000006_153723690094328549_ed288b73",
-    "staticPath": "static"
+    "staticPath": "dist"
 }
