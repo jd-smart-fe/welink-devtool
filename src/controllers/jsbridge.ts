@@ -7,27 +7,21 @@ const caches = Caches.getInstance();
 
 const logger = Log4js.getLogger('jsBridgeController');
 
-// const apiList: object = {
-//   initDeviceData: '/f/service/getStreamsAndH5Info',
-// };
-
-// const getSendParams = (domain: string, data: any): object => {
-// };
-// 获取完整的请求地址
-
-const consoleJSBridgeLoggerInfo = (title: string, content: string) => {
-  // console.log(`\r\n==========${title}==========\r\n`);
-  logger.info(`==========start ${title}==========`);
-  logger.info(`${content}`);
-  logger.info(`==========end ${title}==========`);
-};
-
+logger.level = 'info';
 class JSBridgeController {
   private apiList;
+  private logger;
   constructor() {
     this.apiList = {
       initDeviceData: '/f/service/getStreamsAndH5Info',
     };
+    this.logger = logger;
+  }
+  private consoleJSBridgeLoggerInfo(title: string, content: string) {
+    // console.log(`\r\n==========${title}==========\r\n`);
+    this.logger.info('==========start %s==========', title);
+    this.logger.info(content);
+    this.logger.info('==========end %s============', title);
   }
   private getSendParams(domain: string, data: any) {
     let sendParams: object = null;
@@ -79,11 +73,11 @@ class JSBridgeController {
     const tokenKey = caches.getWebConfig()['authenticationTokenKey'];
     const domain = caches.getWebConfig()['jd.nsng.smart.url'];
     const data: any = this.getSendParams(domain, receiveParams);
-    consoleJSBridgeLoggerInfo('请求数据', JSON.stringify(receiveParams));
+    this.consoleJSBridgeLoggerInfo('请求数据', JSON.stringify(receiveParams));
     try {
       const reslut = await HttpHelper.post(data.api, data.sendData, tokenKey);
       if (reslut.status === 200) {
-        consoleJSBridgeLoggerInfo('返回数据', reslut.text);
+        this.consoleJSBridgeLoggerInfo('返回数据', reslut.text);
         const data = JSON.parse(reslut.text);
         if (data.status !== 0) {
           logger.warn(reslut.text);
