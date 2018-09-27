@@ -21,7 +21,7 @@ class Caches {
   public init(): void {
     // 获取要缓存的信息
     this.webConfig = Utils.readWebconfig(
-      `${Path.resolve(__dirname)}/${this.webConfigFileName}`,
+      `${Path.normalize(`${__dirname}/../`)}${Path.sep}${this.webConfigFileName}`,
     );
     this.RequestHeader = Utils.convertToken(this.webConfig);
   }

@@ -17,10 +17,10 @@ import Caches from './cache/caches';
 // Web Environment
 const isProdEnv: boolean = process.env.NODE_ENV === 'production';
 
-const webConfigFileName = 'welinkconfig.json';
-const webConfig: IWeilinconfig = utils.readWebconfig(
-  `${Path.resolve(__dirname)}/${webConfigFileName}`,
-);
+// const webConfigFileName = 'welinkconfig.json';
+// const webConfig: IWeilinconfig = utils.readWebconfig(
+//   `${Path.resolve(__dirname)}/${webConfigFileName}`,
+// );
 
 // cache webConfig
 Caches.getInstance().init();
@@ -39,7 +39,7 @@ const logger = Log4js.getLogger('app');
 logger.level = 'info';
 
 app.use(BodyParser());
-const staticPath = `${process.cwd()}/${webConfig.staticPath}`;
+const staticPath = `${process.cwd()}/${Caches.getInstance().getWebConfig()['staticPath']}`;
 app.use(serve(staticPath));
 app.use(router.routes());
 // app.use(JSBridge.routes());
