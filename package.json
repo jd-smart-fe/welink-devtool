@@ -1,6 +1,6 @@
 {
   "name": "welink-devtool",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "welink-devtool",
   "main": "dist/app.js",
   "scripts": {
