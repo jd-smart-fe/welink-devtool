@@ -62,6 +62,14 @@ class JSBridgeController {
           },
         };
         break;
+      case 'getDeviceHistoryData':
+        sendData =
+          typeof data.data === 'string' ? JSON.parse(data.data) : data.data;
+        sendParams = {
+          sendData,
+          api: `${domain}${data.url}`,
+        };
+        break;
       default:
         break;
     }
