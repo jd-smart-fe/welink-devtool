@@ -232,7 +232,24 @@ var params = function (params) {
 			closeWindow: function () {
 				console.log('closeWindow');
 			},
-
+			getDeviceHistoryData: function (params, successCallback, failedCallback) {
+				// pc;
+				var data = {
+					"type": "getDeviceHistoryData",
+					"url": "/c/service/getDeviceHistoryData",
+					"data": iJSON.strJSON(params)
+				}
+				new window.SmartPcSendAjax("", data, function (result) {
+					if (result.status != 0) {
+						if (failedCallback) {
+							failedCallback(result.error);
+						}
+					}
+					else {
+						successCallback(result.result);
+					}
+				});
+			},
 		};
 
 		window.JDSMART = {
