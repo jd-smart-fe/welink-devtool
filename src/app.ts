@@ -1,6 +1,5 @@
 import * as Koa from 'koa';
 import * as BodyParser from 'koa-bodyparser';
-import * as Path from 'path';
 import * as Log4js from 'log4js';
 import * as serve from 'koa-static';
 import * as websockify from 'koa-websocket';
@@ -9,9 +8,6 @@ import * as koaViews from 'koa-views';
 import router from './routes';
 
 // utils
-import utils from './common/utils';
-
-import IWeilinconfig from './interfaces/IWelinkConfig';
 import Caches from './cache/caches';
 
 // Web Environment
