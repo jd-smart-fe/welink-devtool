@@ -57,7 +57,9 @@ class HomeController {
   }
   async setToken(ctx: Koa.Context, next: () => Promise<any>) {
     logger.info('home/setToken');
-    const token = ctx.body.token;
+    const params: any = ctx.request.body;
+    const token = params.token;
+    console.log(token);
     const webConfig = caches.getWebConfig();
     webConfig['authenticationTokenKey'] = token;
     // utils.convertToken(Caches.webConfig);
