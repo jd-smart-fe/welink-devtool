@@ -59,7 +59,6 @@ class HomeController {
     logger.info('home/setToken');
     const params: any = ctx.request.body;
     const token = params.token;
-    console.log(token);
     const webConfig = caches.getWebConfig();
     webConfig['authenticationTokenKey'] = token;
     // utils.convertToken(Caches.webConfig);
