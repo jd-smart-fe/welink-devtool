@@ -1,7 +1,7 @@
 import IWeilinconfig from '../interfaces/IWelinkConfig';
 import IRequestHeader from '../interfaces/IRequestHeader';
 import * as Path from 'path';
-import Utils from '../common/utils';
+import Utils from '../common/Utils';
 
 class Caches {
   private webConfig: IWeilinconfig = null;

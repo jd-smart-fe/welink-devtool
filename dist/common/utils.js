@@ -4,7 +4,14 @@ const crypto = require("crypto");
 const fs = require("mz/fs");
 const Log4js = require("log4js");
 const Path = require("path");
+const Initdevicedata_1 = require("../controllers/JSBridgeRequestType/Initdevicedata");
+const GetSnapshot_1 = require("../controllers/JSBridgeRequestType/GetSnapshot");
+const Post_1 = require("../controllers/JSBridgeRequestType/Post");
+const ControlDevice_1 = require("../controllers/JSBridgeRequestType/ControlDevice");
+const GetDeviceHistoryData_1 = require("../controllers/JSBridgeRequestType/GetDeviceHistoryData");
+const Debug = require("debug");
 const logger = Log4js.getLogger('utils');
+const debug = Debug('utils');
 class Utils {
     static md5(str) {
         return crypto
@@ -52,6 +59,32 @@ class Utils {
         }
         return true;
     }
+    static createRequestType(reqData) {
+        debug('O%', reqData);
+        let requestType = null;
+        const type = reqData.type;
+        switch (type) {
+            case 'getSnapshot':
+                requestType = new GetSnapshot_1.default(reqData);
+                break;
+            case 'initDeviceData':
+                requestType = new Initdevicedata_1.default(reqData);
+                break;
+            case 'post':
+                requestType = new Post_1.default(reqData);
+                break;
+            case 'controlDevice':
+                requestType = new ControlDevice_1.default(reqData);
+                break;
+            case 'getDeviceHistoryData':
+                requestType = new GetDeviceHistoryData_1.default(reqData);
+                break;
+            default:
+                requestType = null;
+                break;
+        }
+        return requestType;
+    }
 }
 exports.default = Utils;
-//# sourceMappingURL=utils.js.map
+//# sourceMappingURL=Utils.js.map

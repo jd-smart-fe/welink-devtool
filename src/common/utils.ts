@@ -1,12 +1,20 @@
-
 import * as crypto from 'crypto';
 import * as fs from 'mz/fs';
 import * as Log4js from 'log4js';
 import IWeilinconfig from '../interfaces/IWelinkConfig';
 import * as Path from 'path';
 import IRequestHeader from '../interfaces/IRequestHeader';
+import RequestTypeBase from '../controllers/JSBridgeRequestType/RequestTypeBase';
+import InitDeviceData from '../controllers/JSBridgeRequestType/Initdevicedata';
+import GetSnapshot from '../controllers/JSBridgeRequestType/GetSnapshot';
+import Post from '../controllers/JSBridgeRequestType/Post';
+import ControlDevice from '../controllers/JSBridgeRequestType/ControlDevice';
+import GetDeviceHistoryData from '../controllers/JSBridgeRequestType/GetDeviceHistoryData';
+import * as Debug from 'debug';
 // http 请求api
 const logger = Log4js.getLogger('utils');
+
+const debug = Debug('utils');
 
 /**
  * 工具类
@@ -67,6 +75,32 @@ class Utils {
       return false;
     }
     return true;
+  }
+  public static createRequestType(reqData): RequestTypeBase | null {
+    debug('O%', reqData);
+    let requestType: RequestTypeBase = null;
+    const type = reqData.type;
+    switch (type) {
+      case 'getSnapshot':
+        requestType = new GetSnapshot(reqData);
+        break;
+      case 'initDeviceData':
+        requestType = new InitDeviceData(reqData);
+        break;
+      case 'post':
+        requestType = new Post(reqData);
+        break;
+      case 'controlDevice':
+        requestType = new ControlDevice(reqData);
+        break;
+      case 'getDeviceHistoryData':
+        requestType = new GetDeviceHistoryData(reqData);
+        break;
+      default :
+        requestType = null;
+        break;
+    }
+    return requestType;
   }
 }
 export default Utils;

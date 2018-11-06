@@ -7,9 +7,9 @@ const serve = require("koa-static");
 const websockify = require("koa-websocket");
 const koaViews = require("koa-views");
 const routes_1 = require("./routes");
-const caches_1 = require("./cache/caches");
+const Caches_1 = require("./cache/Caches");
 const isProdEnv = process.env.NODE_ENV === 'production';
-caches_1.default.getInstance().init();
+Caches_1.default.getInstance().init();
 const app = websockify(new Koa());
 exports.app = app;
 app.use(koaViews(`${__dirname}/views`, {
@@ -20,7 +20,7 @@ app.use(koaViews(`${__dirname}/views`, {
 const logger = Log4js.getLogger('app');
 logger.level = 'info';
 app.use(BodyParser());
-const staticPath = `${process.cwd()}/${caches_1.default.getInstance().getWebConfig()['staticPath']}`;
+const staticPath = `${process.cwd()}/${Caches_1.default.getInstance().getWebConfig()['staticPath']}`;
 app.use(serve(staticPath));
 app.use(routes_1.default.routes());
 app.ws.use((ctx) => {

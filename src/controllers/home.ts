@@ -1,7 +1,7 @@
 import * as Koa from 'koa';
 // import * as Router from 'koa-router';
 import * as Log4js from 'log4js';
-import Caches from '../cache/caches';
+import Caches from '../cache/Caches';
 
 const caches = Caches.getInstance();
 

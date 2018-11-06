@@ -8,7 +8,7 @@ import * as koaViews from 'koa-views';
 import router from './routes';
 
 // utils
-import Caches from './cache/caches';
+import Caches from './cache/Caches';
 
 // Web Environment
 const isProdEnv: boolean = process.env.NODE_ENV === 'production';

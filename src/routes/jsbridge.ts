@@ -1,5 +1,5 @@
 import * as Router from 'koa-router';
-import JSBridgeController from '../controllers/jsbridge';
+import JSBridgeController from '../controllers/JSBridge';
 
 const router = new Router();
 
