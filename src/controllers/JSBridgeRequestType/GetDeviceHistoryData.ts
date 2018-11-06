@@ -9,7 +9,11 @@ class GetDeviceHistoryData extends Base{
   constructor(jsBridgeParams: JSBridgeParams) {
     super(jsBridgeParams);
     this.URL = this.jsBridgeParams.url;
-    this.params === 'string' ? JSON.parse(jsBridgeParams.data) : jsBridgeParams.data;
+    const params = this.jsBridgeParams.data;
+    this.params =
+      typeof params === 'string'
+        ? JSON.parse(jsBridgeParams.data)
+        : jsBridgeParams.data;
   }
   async send(): Promise<any> {
     const url = `${this.baseUrl}${this.URL}`;

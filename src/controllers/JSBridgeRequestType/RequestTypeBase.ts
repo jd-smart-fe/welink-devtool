@@ -2,6 +2,7 @@ import Caches from '../../cache/Caches';
 import IWeilinconfig from '../../interfaces/IWelinkConfig';
 import HttpHelper from '../../common/HttpHelper';
 import * as Log4js from 'log4js';
+import IRequestHeader from '../../interfaces/IRequestHeader';
 
 const logger = Log4js.getLogger('InitDeviceData.ts');
 
@@ -15,7 +16,7 @@ abstract class RequestTypeBase {
   protected jsBridgeParams : JSBridgeParams;
   protected caches = Caches.getInstance();
   protected webConfig: IWeilinconfig = null;
-  protected requestHeader = null;
+  protected requestHeader: IRequestHeader = null;
   protected baseUrl: string = null;
   constructor (jsBridgeParams: JSBridgeParams) {
     this.jsBridgeParams = jsBridgeParams;
@@ -33,7 +34,7 @@ abstract class RequestTypeBase {
           errorInfo: `status code: ${response.status}`,
         };
       }
-      const result = JSON.parse(response.data);
+      const result = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
       if (result.status !== 0) {
         logger.warn('%s', result);
       }
