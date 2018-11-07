@@ -1,10 +1,10 @@
 import * as Log4js from 'log4js';
-import Base, { JSBridgeParams } from './RequestTypeBase';
+import JSBridgeServiceBase, { JSBridgeParams } from './JSBridgeServiceBase';
 
 const logger = Log4js.getLogger('Post.ts');
 logger.level = 'info';
 
-class ControlDevice extends Base {
+class ControlDevice extends JSBridgeServiceBase {
   protected params: any = null;
   private URL: string = null;
   constructor(jsBridgeParams: JSBridgeParams) {

@@ -4,13 +4,13 @@ const crypto = require("crypto");
 const fs = require("mz/fs");
 const Log4js = require("log4js");
 const Path = require("path");
-const Initdevicedata_1 = require("../services/JSBridgeRequestType/Initdevicedata");
-const GetSnapshot_1 = require("../services/JSBridgeRequestType/GetSnapshot");
-const Post_1 = require("../services/JSBridgeRequestType/Post");
-const ControlDevice_1 = require("../services/JSBridgeRequestType/ControlDevice");
-const GetDeviceHistoryData_1 = require("../services/JSBridgeRequestType/GetDeviceHistoryData");
+const Initdevicedata_1 = require("../services/JSBridgeService/Initdevicedata");
+const GetSnapshot_1 = require("../services/JSBridgeService/GetSnapshot");
+const Post_1 = require("../services/JSBridgeService/Post");
+const ControlDevice_1 = require("../services/JSBridgeService/ControlDevice");
+const GetDeviceHistoryData_1 = require("../services/JSBridgeService/GetDeviceHistoryData");
 const Debug = require("debug");
-const logger = Log4js.getLogger('utils');
+const logger = Log4js.getLogger('Utils.ts');
 const debug = Debug('utils');
 class Utils {
     static md5(str) {

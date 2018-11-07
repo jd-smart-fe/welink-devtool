@@ -14,7 +14,7 @@ export interface JSBridgeParams {
   data: any;
 }
 
-abstract class RequestTypeBase {
+abstract class JSBridgeServiceBase {
   protected jsBridgeParams : JSBridgeParams;
   protected caches = Caches.getInstance();
   protected webConfig: IWeilinconfig = null;
@@ -52,4 +52,4 @@ abstract class RequestTypeBase {
     }
   }
 }
-export default RequestTypeBase;
+export default JSBridgeServiceBase;

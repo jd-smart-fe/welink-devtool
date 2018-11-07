@@ -1,11 +1,11 @@
 import * as Log4js from 'log4js';
-import Base,  { JSBridgeParams }  from './RequestTypeBase';
+import JSBridgeServiceBase, { JSBridgeParams } from './JSBridgeServiceBase';
 
-const logger = Log4js.getLogger('GetDeviceHistoryData.ts');
+const logger = Log4js.getLogger('Post.ts');
 
 logger.level = 'info';
 
-class GetDeviceHistoryData extends Base{
+class Post extends JSBridgeServiceBase {
   protected params: any = null;
   private URL: string = null;
   constructor(jsBridgeParams: JSBridgeParams) {
@@ -18,9 +18,9 @@ class GetDeviceHistoryData extends Base{
         : jsBridgeParams.data;
   }
   async send(): Promise<any> {
-    const url = `${this.baseUrl}${this.URL}`;
+    const url = `${this.baseUrl}/s/${this.URL}`;
     return await this.post(url, this.params);
   }
 }
 
-export default GetDeviceHistoryData;
+export default Post;
