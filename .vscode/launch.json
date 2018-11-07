@@ -7,13 +7,31 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "dev",
+      "name": "EntryTypeScript",
       "runtimeArgs": [
         "-r",
         "ts-node/register"
       ],
       "args": [
         "${workspaceFolder}/bin/app.dev.ts"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "CurrentJavaScriptFile",
+      "program": "${file}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "CurrentTypescript",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${file}"
       ]
     }
   ]
