@@ -4,15 +4,15 @@ import * as Log4js from 'log4js';
 import IWeilinconfig from '../interfaces/IWelinkConfig';
 import * as Path from 'path';
 import IRequestHeader from '../interfaces/IRequestHeader';
-import RequestTypeBase from '../controllers/JSBridgeRequestType/RequestTypeBase';
-import InitDeviceData from '../controllers/JSBridgeRequestType/Initdevicedata';
-import GetSnapshot from '../controllers/JSBridgeRequestType/GetSnapshot';
-import Post from '../controllers/JSBridgeRequestType/Post';
-import ControlDevice from '../controllers/JSBridgeRequestType/ControlDevice';
-import GetDeviceHistoryData from '../controllers/JSBridgeRequestType/GetDeviceHistoryData';
+import RequestTypeBase from '../services/JSBridgeRequestType/RequestTypeBase';
+import InitDeviceData from '../services/JSBridgeRequestType/Initdevicedata';
+import GetSnapshot from '../services/JSBridgeRequestType/GetSnapshot';
+import Post from '../services/JSBridgeRequestType/Post';
+import ControlDevice from '../services/JSBridgeRequestType/ControlDevice';
+import GetDeviceHistoryData from '../services/JSBridgeRequestType/GetDeviceHistoryData';
 import * as Debug from 'debug';
 // http 请求api
-const logger = Log4js.getLogger('utils');
+const logger = Log4js.getLogger('Utils.ts');
 
 const debug = Debug('utils');
 

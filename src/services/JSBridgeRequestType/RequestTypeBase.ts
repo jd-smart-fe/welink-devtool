@@ -6,6 +6,8 @@ import IRequestHeader from '../../interfaces/IRequestHeader';
 
 const logger = Log4js.getLogger('InitDeviceData.ts');
 
+logger.level = 'info';
+
 export interface JSBridgeParams {
   url: string;
   type: string;

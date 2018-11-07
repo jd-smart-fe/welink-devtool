@@ -2,6 +2,7 @@ import * as Log4js from 'log4js';
 import Base, { JSBridgeParams } from './RequestTypeBase';
 
 const logger = Log4js.getLogger('InitDeviceData.ts');
+logger.level = 'info';
 
 interface SendParams {
   digest: string;

@@ -8,6 +8,8 @@ interface SendParams {
 
 const logger = Log4js.getLogger('GetSnapshot.ts');
 
+logger.level = 'info';
+
 class GetSnapshot extends Base{
   protected params: SendParams = null;
   private URL: string = null;

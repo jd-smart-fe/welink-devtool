@@ -2,6 +2,7 @@ import * as Log4js from 'log4js';
 import Base, { JSBridgeParams } from './RequestTypeBase';
 
 const logger = Log4js.getLogger('Post.ts');
+logger.level = 'info';
 
 class ControlDevice extends Base {
   protected params: any = null;
