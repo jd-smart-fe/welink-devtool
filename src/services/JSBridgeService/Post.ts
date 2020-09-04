@@ -18,7 +18,11 @@ class Post extends JSBridgeServiceBase {
         : jsBridgeParams.data;
   }
   async send(): Promise<any> {
+    if (this.URL.indexOf('/s/') < 1) {
+      logger.error(`检测到 post 请求接口url 以 /s/ 开头检查url是否正确！！`);
+    }
     const url = `${this.baseUrl}/s/${this.URL}`;
+
     return await this.post(url, this.params);
   }
 }
