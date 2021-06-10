@@ -5,7 +5,12 @@
   "main": "dist/app.js",
   "scripts": {
     "build": "node ./build/build.js && tsc",
-    "start": "ts-node-dev --respawn --transpile-only ./bin/app.dev.ts"
+    "start": "ts-node-dev --respawn --transpile-only ./bin/app.dev.ts",
+    "version": "npm run build && git add -A dist",
+    "postversion": "npm publish && git push",
+    "release:beta": "npm version prerelease",
+    "release:patch": "npm version patch",
+    "release:minor": "npm version minor"
   },
   "bin": {
     "welink-devtool": "./bin/app"
