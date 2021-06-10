@@ -16,10 +16,10 @@ class HttpHelper {
         const requestHeader = caches.getRequestHeader();
         const response = await axios.post(url, dataStr, {
             headers: {
-                product_id: requestHeader.productId,
-                u_id: requestHeader.uid,
-                feed_id: requestHeader.feedId,
-                local_token: Utils_1.default.md5(dataStr + tokenKey),
+                productId: requestHeader.productId,
+                uid: requestHeader.uid,
+                feedId: requestHeader.feedId,
+                localToken: Utils_1.default.md5(dataStr + tokenKey),
                 'Content-Type': requestHeader.contentType,
             },
         });

@@ -1,4 +1,3 @@
-import * as Koa from 'koa';
 // import * as Router from 'koa-router';
 import * as Log4js from 'log4js';
 import Caches from '../cache/Caches';
@@ -50,12 +49,11 @@ logger.level = 'info';
 // });
 
 class HomeController {
-
-  async index(ctx: Koa.Context, next: () => Promise<any>) {
+  async index(ctx, next: () => Promise<any>) {
     logger.info('home/index');
     await ctx.render('home/index');
   }
-  async setToken(ctx: Koa.Context, next: () => Promise<any>) {
+  async setToken(ctx, next: () => Promise<any>) {
     logger.info('home/setToken');
     const params: any = ctx.request.body;
     const token = params.token;
@@ -68,14 +66,14 @@ class HomeController {
     ctx.body = { authenticationTokenKey: token };
   }
 
-  async getCurTokenKey(ctx: Koa.Context, next: () => Promise<any>) {
+  async getCurTokenKey(ctx, next: () => Promise<any>) {
     logger.info('getCurTokenKey');
     const token: string = caches.getWebConfig()['authenticationTokenKey'];
     ctx.body = {
       authenticationTokenKey: token,
     };
   }
-  async getLocalVersion(ctx: Koa.Context, next: () => Promise<any>)  {
+  async getLocalVersion(ctx, next: () => Promise<any>) {
     const { version } = process;
 
     const versionFirst = version.replace('v', '').split('.')[0];

@@ -1,10 +1,7 @@
 import Axios, { AxiosResponse } from 'axios';
-
 import * as Log4js from 'log4js';
-
 import Caches from '../cache/Caches';
-
-import utils  from './Utils';
+import utils from './Utils';
 
 const axios = Axios.create();
 
@@ -21,10 +18,10 @@ class HttpHelper {
     const requestHeader = caches.getRequestHeader();
     const response = await axios.post(url, dataStr, {
       headers: {
-        product_id: requestHeader.productId,
-        u_id: requestHeader.uid,
-        feed_id: requestHeader.feedId,
-        local_token: utils.md5(dataStr + tokenKey),
+        productId: requestHeader.productId,
+        uid: requestHeader.uid,
+        feedId: requestHeader.feedId,
+        localToken: utils.md5(dataStr + tokenKey),
         'Content-Type': requestHeader.contentType,
       },
     });

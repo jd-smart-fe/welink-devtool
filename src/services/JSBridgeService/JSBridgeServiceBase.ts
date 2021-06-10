@@ -1,8 +1,8 @@
-import Caches from '../../cache/Caches';
-import IWeilinconfig from '../../interfaces/IWelinkConfig';
-import HttpHelper from '../../common/HttpHelper';
 import * as Log4js from 'log4js';
+import Caches from '../../cache/Caches';
+import HttpHelper from '../../common/HttpHelper';
 import IRequestHeader from '../../interfaces/IRequestHeader';
+import IWeilinconfig from '../../interfaces/IWelinkConfig';
 
 const logger = Log4js.getLogger('InitDeviceData.ts');
 
@@ -15,18 +15,18 @@ export interface JSBridgeParams {
 }
 
 abstract class JSBridgeServiceBase {
-  protected jsBridgeParams : JSBridgeParams;
+  protected jsBridgeParams: JSBridgeParams;
   protected caches = Caches.getInstance();
   protected webConfig: IWeilinconfig = null;
   protected requestHeader: IRequestHeader = null;
   protected baseUrl: string = null;
-  constructor (jsBridgeParams: JSBridgeParams) {
+  constructor(jsBridgeParams: JSBridgeParams) {
     this.jsBridgeParams = jsBridgeParams;
     this.requestHeader = this.caches.getRequestHeader();
     this.webConfig = this.caches.getWebConfig();
     this.baseUrl = this.webConfig['jd.nsng.smart.url'];
   }
-  abstract async send();
+  abstract send();
   protected async post(url, params) {
     try {
       const response = await HttpHelper.post(url, params);
@@ -36,7 +36,10 @@ abstract class JSBridgeServiceBase {
           errorInfo: `status code: ${response.status}`,
         };
       }
-      const result = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
+      const result =
+        typeof response.data === 'string'
+          ? JSON.parse(response.data)
+          : response.data;
       if (result.status !== 0) {
         logger.warn('%s', result);
       }

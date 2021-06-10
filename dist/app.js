@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.app = void 0;
 const Koa = require("koa");
 const BodyParser = require("koa-bodyparser");
-const Log4js = require("log4js");
 const serve = require("koa-static");
-const websockify = require("koa-websocket");
 const koaViews = require("koa-views");
-const routes_1 = require("./routes");
+const websockify = require("koa-websocket");
+const Log4js = require("log4js");
 const Caches_1 = require("./cache/Caches");
+const routes_1 = require("./routes");
 const isProdEnv = process.env.NODE_ENV === 'production';
 Caches_1.default.getInstance().init();
 const app = websockify(new Koa());
@@ -23,6 +24,4 @@ app.use(BodyParser());
 const staticPath = `${process.cwd()}/${Caches_1.default.getInstance().getWebConfig()['staticPath']}`;
 app.use(serve(staticPath));
 app.use(routes_1.default.routes());
-app.ws.use((ctx) => {
-});
 //# sourceMappingURL=app.js.map
